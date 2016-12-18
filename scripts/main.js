@@ -9,40 +9,127 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 define(function (require) {
-  var network = require('network');
+  var getUsers = require('api/getUsers');
+  var postUser = require('api/postUser');
+  var user = {
+    name: '',
+    isAdmin: '',
+    password: '',
+    phone: ''
+  };
 
-  var App = function (_React$Component) {
-    _inherits(App, _React$Component);
+  var UserAdd = function (_React$Component) {
+    _inherits(UserAdd, _React$Component);
 
-    function App() {
-      _classCallCheck(this, App);
+    function UserAdd() {
+      _classCallCheck(this, UserAdd);
 
-      return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+      return _possibleConstructorReturn(this, (UserAdd.__proto__ || Object.getPrototypeOf(UserAdd)).apply(this, arguments));
     }
 
-    _createClass(App, [{
+    _createClass(UserAdd, [{
+      key: 'onNameChange',
+      value: function onNameChange(event) {
+        event.preventDefault();
+        user.name = event.target.value;
+      }
+    }, {
+      key: 'onIsAdminChange',
+      value: function onIsAdminChange(event) {
+        event.preventDefault();
+        user.isAdmin = event.target.value;
+      }
+    }, {
+      key: 'onPasswordChange',
+      value: function onPasswordChange(event) {
+        event.preventDefault();
+        user.password = event.target.value;
+      }
+    }, {
+      key: 'onPhoneChange',
+      value: function onPhoneChange(event) {
+        event.preventDefault();
+        user.phone = event.target.value;
+      }
+    }, {
+      key: 'onSubmit',
+      value: function onSubmit(event) {
+        postUser.request('http://localhost:15234/api/users', user).then(function (data) {
+          console.log(data);
+        });
+      }
+    }, {
       key: 'render',
       value: function render() {
-        var contract = this.props.data[0];
+        var users = this.props.data;
 
         return React.createElement(
-          'span',
+          'div',
           null,
-          'User: ',
-          contract.User.Name
+          React.createElement(
+            'p',
+            null,
+            '\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F'
+          ),
+          React.createElement(
+            'span',
+            null,
+            'User: ',
+            users[users.length - 1].Name
+          ),
+          React.createElement(
+            'form',
+            { className: 'userAdd' },
+            React.createElement(
+              'p',
+              null,
+              React.createElement('input', {
+                type: 'tel',
+                placeholder: '\u0422\u0435\u043B\u0435\u0444\u043E\u043D',
+                onChange: this.onPhoneChange })
+            ),
+            React.createElement(
+              'p',
+              null,
+              React.createElement('input', {
+                type: 'password',
+                placeholder: '\u041F\u0430\u0440\u043E\u043B\u044C',
+                onChange: this.onPasswordChange })
+            ),
+            React.createElement(
+              'p',
+              null,
+              React.createElement('input', {
+                type: 'text',
+                placeholder: '\u0418\u043C\u044F',
+                onChange: this.onNameChange })
+            ),
+            React.createElement(
+              'p',
+              null,
+              React.createElement('input', {
+                type: 'text',
+                placeholder: '\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440?',
+                onChange: this.onIsAdminChange })
+            ),
+            React.createElement('input', {
+              type: 'button',
+              value: '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C',
+              onClick: this.onSubmit })
+          )
         );
       }
     }]);
 
-    return App;
+    return UserAdd;
   }(React.Component);
 
   ;
 
-  network.then(function (data) {
-    ReactDOM.render(React.createElement(App, { data: data }), document.getElementById('root'));
+  getUsers.request('http://localhost:15234/api/users').then(function (data) {
+    ReactDOM.render(React.createElement(UserAdd, { data: data }), document.getElementById('root'));
   });
 
-  new App();
+  new UserAdd();
 });
-//# sourceMappingURL=C:\data-ded\scripts\main.js.map
+//# sourceMappingURL=D:\client\main.js.map
