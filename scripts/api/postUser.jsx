@@ -9,10 +9,10 @@ define(function (require) {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: form.encode({
-          name:'5262',
-          adminType:'false',
-          phone:'+213',
-          password:'sdas',
+          name:user.name,
+          adminType:user.isAdmin,
+          phone:user.phone,
+          password:user.password,
         })
       }).then(response => response.json())
     }
