@@ -1,12 +1,12 @@
 define(function (require) {
   return {
     request(url, user) {
-      const form = require('api/form');
+      const form = require('../api/form');
 
       return fetch(url, {
         method: 'post',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded; charset=windows-1251'
         },
         body: form.encode({
           name:user.name,
